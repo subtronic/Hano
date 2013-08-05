@@ -36,6 +36,8 @@ h1 {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	margin:0 auto;
+	position: relative;
+	top:70%;
 }
 .textBlock:hover{
 cursor:pointer;
