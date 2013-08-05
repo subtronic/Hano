@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 0.8em;
+}
+
+h1 {
+	font-size: 1.2em;
+	text-align: center;
+}
+
+.wrapper {
+/*	width: 400px;
+	margin: 20px auto;
+	height:400px;*/
+	margin:0 auto;
+}
+
+#block1, #block2, #block3{
+/*	border: solid 1px #555555;
+	margin: 10px;
+	padding: 20px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	float:left;*/
+}
+
+.textBlock {
+	border: solid 1px #333333;
+	font-weight: bold;
+	/*margin: 10px 0 5px 0;
+	padding: 10px;*/
+	text-align: center;
+	background-color: #eeeeee;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	margin:0 auto;
+}
+.textBlock:hover{
+cursor:pointer;
+background-color: #d9d9d9;
+box-shadow:1px 0px 1px #eee;
+
+}
+.dropHere {
+	background-color: #e7e7de;
+}
+form{
+	float:none;
+	margin-top:230px;
+}
+#res{
+display:none;
+}
+.takeit{
+	height:500px;
+	width:27%;
+	border: solid 1px #555555;
+	/*margin: 10px;*/
+	padding: 10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	float:left;
+	text-align:center;
+}
+.start{
+background:#F6F6F6 url(css/ui-lightness/images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+border:1px solid #CCC;
+color:#1C94C4;
+font-weight:bold;
+padding:.4em 1em .4em 20px;
+border-radius:4px;
+}
