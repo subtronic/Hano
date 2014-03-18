@@ -4,110 +4,113 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Ханойская Башня</title>
 		<link rel="stylesheet" type="text/css" href="css/styles.css" />
-		<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
-		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 		<script type="text/javascript">
-		num=1;
-		n=0;
-        function sizeOfBlocks(n){
-            if(n<3){n=4}
-            var start=10;
-            var end=30;
-            var width=[];
-            var part=(end-start)/n;
-            var j=0;
-            var height=parseInt(500/n);
-            for (var i=part;i<=end-start;i += part){
-                width[j]=parseInt(start+i);
-                j++;
-            }
-            //alter
-            var pt=parseInt((100-10)/n);
-            var wth=[];
-            j=0;
-            for (var z=10;z<=100;z += pt){
-                wth[j]=parseInt(z);
-                j++;
-            }
-            console.log(width);
-            console.log(height);
-            console.log(wth);
-        }
-		function init(){
-			var n=($('#NumberOfBlocks').attr('value')>0)?$('#NumberOfBlocks').attr('value'):4;
-			//alert(n);
+		tower = $(function(){
+			return {
+				num : 1,
+				n : 0,
+				sizeOfBlocks : function(){
+		            n = n < 3 ? 4 : n;
+		            var start=10,
+		            	end=30,
+		            	width=[],
+		            	part=(end-start)/n,
+		            	j=0,
+		            	height=parseInt(500/n);
+		            
+		            for (var i=part;i<=end-start;i += part){
+		                width[j]=parseInt(start+i);
+		                j++;
+		            }
+		            //alter
+		            var pt=parseInt((100-10)/n),
+		            	wth=[];
+		            j=0;
+		            for (var z=10;z<=100;z += pt){
+		                wth[j]=parseInt(z);
+		                j++;
+		            }
+		            console.log(width);
+		            console.log(height);
+		            console.log(wth);
+				},
+				init : function(){
+					var n=($('#NumberOfBlocks').attr('value')>0)?$('#NumberOfBlocks').attr('value'):4,
+						width=40,
+						height=150/n;
 
-			$('.takeit').html('');
-			//$("#block1").html('');
-			//$("#block2").html('');
-			//$("#block3").html('');
-			var width=40;
-			var height=150/n;
-			for (var i=1;i<=n;i++) {
-				$('#block1').append('<div align="center" id="'+i+ '" class="textBlock" number="'+i+'" lst="1">'+i+'</div>');
-				$('#'+i).css('width',(width-(n-2*i*i))+'%').css('height',height+'px');
-			}
-			$('#block1').children().first().draggable({
-        		revert:'invalid'
-    			}).draggable('enable');
-		}
-		function hm(){
-			$('#block3').children().draggable( 'disable' );
-					$.post("save.php",
-					{tofile: $('#res').html()},function(data){
-					$('#dialog-intro').html('Вы победили за '+(num-1)+' иттераций! <a href="logs/'+data+'"> Здесь хранится запись ваших шагов </a>');
-					$('#dialog').dialog();
-			});
-		}
-
-		$(function pp() {
-    		$('.takeit').children().draggable('disable');
-            //$('#block1').children().draggable( 'disable' );
-			//$('#block2').children().draggable( 'disable' );
-			//$('#block3').children().draggable( 'disable' );
-			//$('#block1').children().first().draggable({
-       	 	//helper:'clone'
-			//	revert:'invalid'
-  			// }).draggable( 'enable' );
-		    $('.takeit').children().first().draggable({revert:'invalid'}).draggable('enable');
-			/*$('#block2').children().first().draggable({
-      		 	 //helper:'clone'
-				revert:"invalid"
-    		}).draggable( 'enable' );
-			$('#block3').children().first().draggable({
-       	 	//helper:'clone'
-				revert:"invalid"
-   			}).draggable( 'enable' );
-			*/
-			$('#block1').children().first().draggable( 'enable' );
-
-    		$('div.wrapper').children().droppable({
-    		    hoverClass: 'dropHere'
-    		    ,//accept:function(el){return el.hasClass("someClass")} 
-				drop: function(event, ui) {
-					if(!$(this).is('.textBlock')){
-						if ($(this).children().first().attr('number')>ui.draggable.attr('number') || $(this).children().is('.textBlock')!=true) {
-							if($(this).attr('lst')!=ui.draggable.attr('lst')){
-								$('#res').append(' \r\n №'+num/*ui.draggable.attr('number')*/+' '+ui.draggable.attr('lst')+' -&gt; '+$(this).attr('lst'));
-							}
-							ui.draggable.attr('lst',$(this).attr('lst'));
-							$(this).prepend($('<div id="'+ui.draggable.attr('id')+ '" class="textBlock" number="'+ui.draggable.attr('number')+'" lst="'+ui.draggable.attr('lst')+'" style="width:'+ui.draggable.css('width')+';height:'+ui.draggable.	css('	height')+'">' + ui.draggable.html() + '</div>'));
-							num++;
-							ui.draggable.remove();
-							pp();
-						} else {
-							$('#block'+ui.draggable.attr('lst')).prepend($('<div id="'+ui.draggable.attr('id')+ '" class="textBlock" number="'+ui.draggable.attr('number')+'" lst="'+ui.draggable.attr('lst')+'" style="width:'+ui.draggable.css('	width')+	';height:'+ui.draggable.css('height')+';">' + ui.draggable.html() + '</div>'));
-							ui.draggable.remove();
-							pp();
-						}
+					$('.takeit').html('');
+					//$("#block1").html('');
+					//$("#block2").html('');
+					//$("#block3").html('');
+					for (var i = 1; i <= n; i++) {
+						$('#block1').append('<div align="center" id="'+i+ '" class="textBlock" number="'+i+'" lst="1">'+i+'</div>');
+						$('#'+i).css('width',(width-(n-2*i*i))+'%').css('height',height+'px');
 					}
-					if ($('#block3').children().length==n){
-						hm();
-						}
-			   }
-    		});
-		});		
+
+					$('#block1').children().first().draggable({
+		        		revert:'invalid'
+		    		}).draggable('enable');
+				},
+				save : function(){
+					$('#block3').children().draggable( 'disable' );
+							$.post("save.php",
+							{tofile: $('#res').html()},function(data){
+							$('#dialog-intro').html('Вы победили за '+(num-1)+' иттераций! <a href="logs/'+data+'"> Здесь хранится запись ваших шагов </a>');
+							$('#dialog').dialog();
+					});
+				},
+				pp : function(){
+		    		$('.takeit').children().draggable('disable');
+		            //$('#block1').children().draggable( 'disable' );
+					//$('#block2').children().draggable( 'disable' );
+					//$('#block3').children().draggable( 'disable' );
+					//$('#block1').children().first().draggable({
+		       	 	//helper:'clone'
+					//	revert:'invalid'
+		  			// }).draggable( 'enable' );
+				    $('.takeit').children().first().draggable({revert:'invalid'}).draggable('enable');
+					/*$('#block2').children().first().draggable({
+		      		 	 //helper:'clone'
+						revert:"invalid"
+		    		}).draggable( 'enable' );
+					$('#block3').children().first().draggable({
+		       	 	//helper:'clone'
+						revert:"invalid"
+		   			}).draggable( 'enable' );
+					*/
+					$('#block1').children().first().draggable( 'enable' );
+
+		    		$('div.wrapper').children().droppable({
+		    		    hoverClass: 'dropHere',//accept:function(el){return el.hasClass("someClass")} 
+						drop: function(event, ui) {
+							if(!$(this).is('.textBlock')){
+								if ($(this).children().first().attr('number')>ui.draggable.attr('number') || $(this).children().is('.textBlock')!=true) {
+									if($(this).attr('lst')!=ui.draggable.attr('lst')){
+										$('#res').append(' \r\n №'+num/*ui.draggable.attr('number')*/+' '+ui.draggable.attr('lst')+' -&gt; '+$(this).attr('lst'));
+									}
+									ui.draggable.attr('lst',$(this).attr('lst'));
+									$(this).prepend($('<div id="'+ui.draggable.attr('id')+ '" class="textBlock" number="'+ui.draggable.attr('number')+'" lst="'+ui.draggable.attr('lst')+'" style="width:'+ui.draggable.css('width')+';height:'+ui.draggable.	css('	height')+'">' + ui.draggable.html() + '</div>'));
+									num++;
+									ui.draggable.remove();
+									pp();
+								} else {
+									$('#block'+ui.draggable.attr('lst')).prepend($('<div id="'+ui.draggable.attr('id')+ '" class="textBlock" number="'+ui.draggable.attr('number')+'" lst="'+ui.draggable.attr('lst')+'" style="width:'+ui.draggable.css('	width')+	';height:'+ui.draggable.css('height')+';">' + ui.draggable.html() + '</div>'));
+									ui.draggable.remove();
+									pp();
+								}
+							}
+							if ($('#block3').children().length == n){
+								save();
+							}
+					   }
+		    		});
+				}
+			}
+		});
 		
 		</script>	
 	</head>
@@ -127,7 +130,7 @@
 	<div id="res" style='position:absolute;border:1px solid #d3d3d3;padding:5px;border-radius:5px;'></div>
 	<form>
 		<input type="text" value="2" id="NumberOfBlocks"  style="padding:4px;"/>
-		<a href="#" onClick="init()" class="start">Начать!</a>
+		<a href="#" onClick="tower.init()" class="start">Начать!</a>
         <p onclick="sizeOfBlocks(10);">Первет</p>
 	</form>
 	<div id="dialog" style="display:none;">

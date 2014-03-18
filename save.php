@@ -2,7 +2,7 @@
 	$_POST[''];
 	$file=md5(rand());
 	chdir('logs');
-if( !file_exists($file)) {
+	if(!file_exists($file)) {
 		$fp = @fopen($file, "w"); // ("r" - считывать "w" - создавать "a" - добовлять к тексту)
 		@fclose ($fp);
 	} 
